@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="20086" systemVersion="21G217" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="1.0">
+    <entity name="ManagedMediaAsset" representedClassName="ManagedMediaAsset" syncable="YES">
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="localURL" attributeType="URI"/>
+        <attribute name="mediaType" attributeType="String"/>
+        <relationship name="playerItem" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ManagedPlayerItem" inverseName="mediaAsset" inverseEntity="ManagedPlayerItem"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="id"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="ManagedPlayerItem" representedClassName="ManagedPlayerItem" syncable="YES">
+        <attribute name="author" attributeType="String"/>
+        <attribute name="duration" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="isFavorite" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="itemDescription" optional="YES" attributeType="String"/>
+        <attribute name="mediaType" attributeType="String"/>
+        <attribute name="source" optional="YES" attributeType="String"/>
+        <attribute name="sourceURL" attributeType="URI"/>
+        <attribute name="title" attributeType="String"/>
+        <attribute name="url" attributeType="URI"/>
+        <relationship name="mediaAsset" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="ManagedMediaAsset" inverseName="playerItem" inverseEntity="ManagedMediaAsset"/>
+        <relationship name="playlists" toMany="YES" deletionRule="Nullify" destinationEntity="ManagedPlaylist" inverseName="items" inverseEntity="ManagedPlaylist"/>
+        <relationship name="themes" toMany="YES" deletionRule="Nullify" destinationEntity="ManagedTheme" inverseName="playerItems" inverseEntity="ManagedTheme"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="id"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="ManagedPlaylist" representedClassName="ManagedPlaylist" syncable="YES">
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="name" attributeType="String"/>
+        <relationship name="items" toMany="YES" deletionRule="Nullify" destinationEntity="ManagedPlayerItem" inverseName="playlists" inverseEntity="ManagedPlayerItem"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="id"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="ManagedTheme" representedClassName="ManagedTheme" syncable="YES">
+        <attribute name="defaultImageName" attributeType="String"/>
+        <attribute name="font" attributeType="String"/>
+        <attribute name="identifier" attributeType="String"/>
+        <attribute name="subtitle" attributeType="String"/>
+        <attribute name="title" attributeType="String"/>
+        <relationship name="playerItems" toMany="YES" deletionRule="Nullify" destinationEntity="ManagedPlayerItem" inverseName="themes" inverseEntity="ManagedPlayerItem"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="identifier"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <elements>
+        <element name="ManagedPlayerItem" positionX="-63" positionY="-18" width="128" height="224"/>
+        <element name="ManagedPlaylist" positionX="-45" positionY="90" width="128" height="74"/>
+        <element name="ManagedTheme" positionX="-36" positionY="72" width="128" height="119"/>
+        <element name="ManagedMediaAsset" positionX="-18" positionY="99" width="128" height="89"/>
+    </elements>
+</model>
