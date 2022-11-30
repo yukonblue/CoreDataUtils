@@ -36,17 +36,15 @@ class PersistenceController {
         viewContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
         viewContext.persistentStoreCoordinator = persistentStoreCoordinator
 
-        let queue = DispatchQueue.global(qos: DispatchQoS.QoSClass.utility)
-        queue.async {
-            let storeURL = URL(fileURLWithPath: "/dev/null")
-            do {
-                try persistentStoreCoordinator.addPersistentStore(ofType: NSSQLiteStoreType,
-                                                                  configurationName: nil,
-                                                                  at: storeURL,
-                                                                  options: nil)
-            } catch {
-                fatalError("Error migrating store: \(error)")
-            }
+        let storeURL = URL(fileURLWithPath: "/dev/null")
+        do {
+            try persistentStoreCoordinator.addPersistentStore(ofType: NSSQLiteStoreType,
+                                                              configurationName: nil,
+                                                              at: storeURL,
+                                                              options: nil)
+        } catch {
+            print("Error migrating store: \(error)")
+            return nil
         }
     }
 }
