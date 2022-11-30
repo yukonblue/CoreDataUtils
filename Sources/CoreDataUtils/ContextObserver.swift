@@ -17,14 +17,14 @@ public struct ObservableContextChange: OptionSet {
         self.rawValue = rawValue
     }
 
-    static let inserts = ObservableContextChange(rawValue: 1 << 0)
-    static let updates = ObservableContextChange(rawValue: 1 << 1)
-    static let deletes = ObservableContextChange(rawValue: 1 << 2)
+    static public let inserts = ObservableContextChange(rawValue: 1 << 0)
+    static public let updates = ObservableContextChange(rawValue: 1 << 1)
+    static public let deletes = ObservableContextChange(rawValue: 1 << 2)
 }
 
 public class ContextObserver<T: NSManagedObject> {
 
-    enum ContextChange {
+    public enum ContextChange {
         case insert(Int)
         case update(Int)
         case delete(Int)
@@ -35,11 +35,11 @@ public class ContextObserver<T: NSManagedObject> {
     let subject: PassthroughSubject<ContextChange, Never>
     let updatesToObserve: ObservableContextChange
 
-    var publisher: AnyPublisher<ContextChange, Never> {
+    public var publisher: AnyPublisher<ContextChange, Never> {
         self.subject.eraseToAnyPublisher()
     }
 
-    init(context: NSManagedObjectContext, updatesToObserve: ObservableContextChange) {
+    public init(context: NSManagedObjectContext, updatesToObserve: ObservableContextChange) {
         self.context = context
         self.updatesToObserve = updatesToObserve
         self.subject = PassthroughSubject<ContextChange, Never>()
